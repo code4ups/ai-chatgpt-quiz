@@ -10,9 +10,28 @@ let quizSettings = {
 
 // Αρχικοποίηση
 document.addEventListener('DOMContentLoaded', function() {
+    updateQuestionCounts();
     setupEventListeners();
     showMainMenu();
 });
+
+function updateQuestionCounts() {
+    // Ενημέρωση του αριθμού ερωτήσεων για κάθε ενότητα δυναμικά από το questionBank
+    document.querySelectorAll('.section-card').forEach(card => {
+        const sectionNum = parseInt(card.dataset.section);
+        const questionCountSpan = card.querySelector('.question-count');
+
+        if (sectionNum === 9) {
+            // Η ενότητα 9 είναι μικτή αξιολόγηση - δεν αλλάζει
+            return;
+        }
+
+        if (sectionInfo[sectionNum] && questionCountSpan) {
+            const count = sectionInfo[sectionNum].maxQuestions;
+            questionCountSpan.textContent = `${count} ερωτήσεις`;
+        }
+    });
+}
 
 function setupEventListeners() {
     // Επιλογή ενότητας από το κύριο μενού
